@@ -2,8 +2,8 @@ import cv2
 
 
 
-capture = cv2.VideoCapture(0)
-keyFrame = 1
+capture = cv2.VideoCapture('../vids/#')
+timeFrame = 10
 
 while True:
     ret, frame = capture.read()
@@ -12,9 +12,10 @@ while True:
 
     cv2.imshow('Frame', frame)
 
-    key = cv2.waitKey(keyFrame) & 0xFF
+    key = cv2.waitKey(timeFrame) & 0xFF
     if key == ord('q'):
         break
 
 capture.release()
 cv2.destroyAllWindows()
+
