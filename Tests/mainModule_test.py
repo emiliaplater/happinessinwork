@@ -15,7 +15,7 @@ class TestCapture(unittest.TestCase):
 
             self.assertGreater(len(frame), 0, msg="Captured frame should not be empty")
 
-            key = cv2.waitKey(keyFrame) & 0xFF
+            key = cv2.waitKey(timeFrame) & 0xFF
             if key == ord('q'):
                 break
 
