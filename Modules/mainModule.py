@@ -1,21 +1,34 @@
 import cv2
+import numpy as np
+#modules
+from binaryModule import binaryModule
 
 
 
-capture = cv2.VideoCapture('../vids/#')
-timeFrame = 10
+class MainModule:
+    def __init__(self, flv_path, time_frame):
+        self.flv_path = flv_path
+        self.time_frame = time_frame
 
-while True:
-    ret, frame = capture.read()
-    if ret is False:
-        break
+    def play(self):
+        capture = cv2.VideoCapture(self.flv_path)
 
-    cv2.imshow('Frame', frame)
+        while True:
+            ret, frame = capture.read()
+            if ret is False:
+                break
 
-    key = cv2.waitKey(timeFrame) & 0xFF
-    if key == ord('q'):
-        break
+            binaryModule(frame)
 
-capture.release()
-cv2.destroyAllWindows()
+            cv2.imshow('Frame', frame)
 
+            key = cv2.waitKey(self.time_frame) & 0xFF
+            if key == ord('q'):
+                break
+
+        capture.release()
+        cv2.destroyAllWindows()
+
+
+video_player = MainModule('#', 50) # prodive a path
+video_player.play()
