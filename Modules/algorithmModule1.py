@@ -31,5 +31,4 @@ def algorithmModule1(threshold, frame):
             cv2.circle(frame, (x2, y2), r2, (0, 255, 0), 2)
 
     # cv2.imshow('Edges', CA)
-    # tuple1 = (left_eye_coords1, right_eye_coords1)
     firstAlgorithmCoords(left_eye_coords1, right_eye_coords1)
