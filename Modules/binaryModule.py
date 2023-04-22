@@ -1,6 +1,7 @@
 import cv2
 #modules
-from algorithmModule import algorithmModule
+from algorithmModule1 import algorithmModule1
+from algorithmModule2 import algorithmModule2
 
 
 
@@ -10,4 +11,5 @@ def binaryModule(frame):
 
     _, threshold = cv2.threshold(gray_roi, 20, 255, cv2.THRESH_BINARY_INV)
 
-    return algorithmModule(threshold, frame)
+    algorithmModule1(threshold, frame)
+    algorithmModule2(threshold, frame)
