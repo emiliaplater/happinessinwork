@@ -1,6 +1,9 @@
 import cv2
+import numpy as np
 #modules
 from binaryModule import binaryModule
+from algorithmModule1 import algorithmModule1
+from algorithmModule2 import algorithmModule2
 
 
 
@@ -17,7 +20,18 @@ class MainModule:
             if ret is False:
                 break
 
-            binaryModule(frame)
+            threshold = binaryModule(frame)
+
+            left_eye_coords1, right_eye_coords1 = algorithmModule1(threshold, frame)
+            left_eye_coords2, right_eye_coords2 = algorithmModule2(threshold, frame)
+
+            # Calculate the average of the left and right eye coordinates
+            if left_eye_coords1 is not None and left_eye_coords2 is not None:
+                left = np.array([left_eye_coords1[0], left_eye_coords2[0]]).mean()
+                print('\033[96m' + f'Left eye coordinates: {left}')
+            if right_eye_coords1 is not None and right_eye_coords2 is not None:
+                right = np.array([right_eye_coords1[0], right_eye_coords2[0]]).mean()
+                print('\033[94m' + f'Right eye coordinates: {right}')
 
             cv2.imshow('Frame', frame)
 
@@ -29,5 +43,5 @@ class MainModule:
         cv2.destroyAllWindows()
 
 
-video_player = MainModule('#', 50) # prodive a path
+video_player = MainModule('../vids/vid1.flv', 100) # prodive a path
 video_player.play()
