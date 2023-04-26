@@ -24,6 +24,14 @@ def algorithmModule1(threshold, frame) -> int:
             left_eye_coords1 = (x1, y1, r1)
             right_eye_coords1 = (x2, y2, r2)
 
+            if x1-r1*13 >= 0 and x1+r1*13 <= frame.shape[1] and y1-r1*13 >= 0 and y1+r1*13 <= frame.shape[0]:
+                left_eye_roi = frame[y1-r1*13:y1+r1*13, x1-r1*13:x1+r1*13]
+                cv2.imshow('left', left_eye_roi)
+
+            if x2-r2*13 >= 0 and x2+r2*13 <= frame.shape[1] and y2-r2*13 >= 0 and y2+r2*13 <= frame.shape[0]:
+                right_eye_roi = frame[y2-r2*13:y2+r2*13, x2-r2*13:x2+r2*13]
+                cv2.imshow('right', right_eye_roi)
+
             cv2.circle(frame, (x1, y1), r1, (0, 255, 0), 2)
             cv2.circle(frame, (x2, y2), r2, (0, 255, 0), 2)
 
