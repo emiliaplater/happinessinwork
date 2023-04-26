@@ -24,6 +24,4 @@ def algorithmModule2(threshold, frame) -> int:
             cv2.circle(frame, center, radius, (0, 0, 255), 2)
             right_eye_coords2 = (x, y)
 
-        cv2.imshow('Frame', frame)
-
     return left_eye_coords2, right_eye_coords2
