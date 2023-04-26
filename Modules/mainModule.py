@@ -32,6 +32,8 @@ class MainModule:
             if right_eye_coords1 is not None and right_eye_coords2 is not None:
                 right = np.array([right_eye_coords1[0], right_eye_coords2[0]]).mean()
                 print('\033[94m' + f'Right eye coordinates: {right}')
+            else:
+                print('\033[93mNo eye detected...\033[0m')
 
             cv2.imshow('Frame', frame)
 
@@ -43,5 +45,5 @@ class MainModule:
         cv2.destroyAllWindows()
 
 
-video_player = MainModule('../vids/vid1.flv', 100) # prodive a path
+video_player = MainModule('../vids/vid2.flv', 50) # prodive a path
 video_player.play()
