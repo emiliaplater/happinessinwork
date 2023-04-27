@@ -20,12 +20,12 @@ class MainModule:
             if ret is False:
                 break
 
-            threshold = binaryModule(frame)
+            threshold_frame = binaryModule(frame)
 
-            left_eye_coords1, right_eye_coords1 = algorithmModule1(threshold, frame)
-            left_eye_coords2, right_eye_coords2 = algorithmModule2(threshold, frame)
+            left_eye_coords1, right_eye_coords1 = algorithmModule1(threshold_frame, frame)
+            left_eye_coords2, right_eye_coords2 = algorithmModule2(threshold_frame, frame)
+ 
 
-            # Calculate the average of the left and right eye coordinates
             if left_eye_coords1 is not None and left_eye_coords2 is not None:
                 left = np.array([left_eye_coords1[0], left_eye_coords2[0]]).mean()
                 print('\033[96m' + f'Left eye coordinates: {left}')
@@ -35,7 +35,15 @@ class MainModule:
             else:
                 print('\033[93mNo eye detected...\033[0m')
 
-            cv2.imshow('Frame', frame)
+            height, width = frame.shape[:2]
+            half_width = width // 2
+            left_frame = frame[:, :half_width]
+            right_frame = frame[:, half_width:]
+
+            cv2.imshow('Both', frame)
+            cv2.imshow('Left', left_frame)
+            cv2.imshow('Right', right_frame)
+
 
             key = cv2.waitKey(self.time_frame) & 0xFF
             if key == ord('q'):
@@ -45,5 +53,5 @@ class MainModule:
         cv2.destroyAllWindows()
 
 
-video_player = MainModule('../vids/vid2.flv', 50) # prodive a path
+video_player = MainModule('#', 1) # prodive a path
 video_player.play()
