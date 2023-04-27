@@ -3,8 +3,13 @@ import numpy as np
 
 
 
-def algorithmModule1(frame_threshold, frame) -> int:
-    circles = cv2.HoughCircles(frame_threshold, cv2.HOUGH_GRADIENT, dp=1, minDist=50, param1=8.5, param2=8.5, minRadius=5, maxRadius=100)
+def algorithmModule1(threshold, frame) -> int:
+    kernel = np.ones((3, 3), np.uint8)
+    opened = cv2.morphologyEx(threshold, cv2.MORPH_OPEN, kernel)
+    closed = cv2.morphologyEx(opened, cv2.MORPH_CLOSE, kernel)
+    CA = cv2.medianBlur(closed, 7)
+
+    circles = cv2.HoughCircles(CA, cv2.HOUGH_GRADIENT, dp=1, minDist=50, param1=8.5, param2=8.5, minRadius=5, maxRadius=100)
 
     left_eye_coords1 = None
     right_eye_coords1 = None
