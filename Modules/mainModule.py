@@ -1,9 +1,11 @@
 import cv2
 import numpy as np
+import matplotlib.pyplot as plt
 #modules
 from binaryModule import binaryModule
 from algorithmModule1 import algorithmModule1
 from algorithmModule2 import algorithmModule2
+from calculateModule import calculateModule
 
 
 
@@ -24,26 +26,23 @@ class MainModule:
 
             left_eye_coords1, right_eye_coords1 = algorithmModule1(threshold_frame, frame)
             left_eye_coords2, right_eye_coords2 = algorithmModule2(threshold_frame, frame)
- 
-
-            if left_eye_coords1 is not None and left_eye_coords2 is not None:
-                left = np.array([left_eye_coords1[0], left_eye_coords2[0]]).mean()
-                print('\033[96m' + f'Left eye coordinates: {left}')
-            if right_eye_coords1 is not None and right_eye_coords2 is not None:
-                right = np.array([right_eye_coords1[0], right_eye_coords2[0]]).mean()
-                print('\033[94m' + f'Right eye coordinates: {right}')
-            else:
-                print('\033[93mNo eye detected...\033[0m')
+            
+            left_eye_average_X, left_eye_average_Y, right_eye_average_X, right_eye_average_Y = calculateModule(
+                left_eye_coords1, 
+                right_eye_coords1, 
+                left_eye_coords2, 
+                right_eye_coords2
+            )
 
             height, width = frame.shape[:2]
             half_width = width // 2
             left_frame = frame[:, :half_width]
             right_frame = frame[:, half_width:]
 
+
             cv2.imshow('Both', frame)
             cv2.imshow('Left', left_frame)
             cv2.imshow('Right', right_frame)
-
 
             key = cv2.waitKey(self.time_frame) & 0xFF
             if key == ord('q'):
@@ -52,6 +51,5 @@ class MainModule:
         capture.release()
         cv2.destroyAllWindows()
 
-
-video_player = MainModule('#', 1) # prodive a path
+video_player = MainModule('../vids/vid1.flv', 77) # prodive a path
 video_player.play()
