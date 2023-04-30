@@ -19,9 +19,9 @@ def algorithmModule2(threshold, frame) -> int:
 
         if x < frame.shape[1] / 2:
             cv2.circle(frame, center, radius, (255, 0, 0), 2)
-            left_eye_coords2 = (x, y)
+            left_eye_coords2 = (x, y, r)
         else:
             cv2.circle(frame, center, radius, (0, 0, 255), 2)
-            right_eye_coords2 = (x, y)
+            right_eye_coords2 = (x, y, r)
 
     return left_eye_coords2, right_eye_coords2
