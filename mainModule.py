@@ -2,10 +2,10 @@ import cv2
 import matplotlib.pyplot as plt
 import time
 # Modules
-from binaryModule import binaryModule
-from algorithmModule1 import algorithmModule1
-from algorithmModule2 import algorithmModule2
-from calculateModule import calculateModule
+from Modules.performance.binaryModule import binaryModule
+from Modules.algorithms.algorithmModule1 import algorithmModule1
+from Modules.algorithms.algorithmModule2 import algorithmModule2
+from Modules.calculating.calculateModule import calculateModule
 
 
 
