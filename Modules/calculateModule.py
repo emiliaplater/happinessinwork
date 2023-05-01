@@ -1,8 +1,7 @@
 import numpy as np
 
 
-
-def calculateModule(left_eye_coords1, right_eye_coords1, left_eye_coords2, right_eye_coords2):
+def calculateModule(left_eye_coords1, right_eye_coords1, left_eye_coords2, right_eye_coords2) -> int:
     left_eye_average_X = None
     left_eye_average_Y = None
     right_eye_average_X = None
@@ -23,6 +22,5 @@ def calculateModule(left_eye_coords1, right_eye_coords1, left_eye_coords2, right
         print('\033[94m' + f'Right eye average coordinates: (X: {right_eye_average_X}, Y: {right_eye_average_Y}, R: {right_eye_average_R})')
     else:
         print('\033[93mNo eye detected...\033[0m')
-
     
     return left_eye_average_X, left_eye_average_Y, right_eye_average_X, right_eye_average_Y
