@@ -51,6 +51,11 @@ conda env export > apple-metal.yml
 ```
 *Do not forget to set the environment (current: myenv) in your IDE*
 
+- run the main file:
+```bash
+python mainModule.py
+```
+
 
 ## Project Structure
 - Setup the [environment](#getting-started) and install necessary [libraries](#technologies)
