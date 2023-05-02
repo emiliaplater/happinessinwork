@@ -23,6 +23,8 @@ In addition to detecting the centroids of the eyes, some eye centroids detector 
 
 > [time](https://docs.python.org/3/library/time.html)
 
+> [concurrent](https://docs.python.org/3/library/concurrency.html)
+
 ## Getting Started 
 Creating a Virtual Environment:
 
