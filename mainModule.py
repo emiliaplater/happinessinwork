@@ -47,7 +47,7 @@ class MainModule:
             if left_eye_average_X is not None:
                 self.ax.scatter(left_eye_average_X, left_eye_average_Y, timestamp, marker='o', color='blue')
             if right_eye_average_X is not None:
-                self.ax.scatter(right_eye_average_X, right_eye_average_Y, timestamp, marker='o', color='purple')
+                self.ax.scatter(right_eye_average_X, right_eye_average_Y, timestamp, marker='o', color='blue')
 
             plt.pause(0.001)
 
@@ -57,7 +57,7 @@ class MainModule:
             left_frame = frame[:, :half_width]
             right_frame = frame[:, half_width:]
 
-            cv2.imshow('Both', frame)
+            # cv2.imshow('Both', frame)
             cv2.imshow('Left', left_frame)
             cv2.imshow('Right', right_frame)
 
@@ -71,5 +71,5 @@ class MainModule:
         cv2.destroyAllWindows()
 
 
-video_player = MainModule('#', 1) # prodive a path
+video_player = MainModule('./vids/vid1.flv', 1) # prodive a path
 video_player.play()
