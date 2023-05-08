@@ -8,11 +8,12 @@ from Modules.algorithms.algorithmModule2 import algorithmModule2
 from Modules.calculating.calculateModule import calculateModule
 
 
-
 class MainModule:
-    def __init__(self, flv_path, time_frame):
+    def __init__(self, flv_path, wait_key, marker='o', color='blue'):
         self.flv_path = flv_path
-        self.time_frame = time_frame
+        self.wait_key = wait_key
+        self.marker = marker
+        self.color = color
         
         fig = plt.figure()
         self.ax = fig.add_subplot(111, projection='3d')
@@ -45,9 +46,9 @@ class MainModule:
             timestamp = time.time()
 
             if left_eye_average_X is not None:
-                self.ax.scatter(left_eye_average_X, left_eye_average_Y, timestamp, marker='o', color='blue')
+                self.ax.scatter(left_eye_average_X, left_eye_average_Y, timestamp, marker=self.marker, color=self.color)
             if right_eye_average_X is not None:
-                self.ax.scatter(right_eye_average_X, right_eye_average_Y, timestamp, marker='o', color='blue')
+                self.ax.scatter(right_eye_average_X, right_eye_average_Y, timestamp, marker=self.marker, color=self.color)
 
             plt.pause(0.001)
 
@@ -57,12 +58,12 @@ class MainModule:
             left_frame = frame[:, :half_width]
             right_frame = frame[:, half_width:]
 
-            # cv2.imshow('Both', frame)
+            cv2.imshow('Both', frame)
             cv2.imshow('Left', left_frame)
             cv2.imshow('Right', right_frame)
 
 
-            key = cv2.waitKey(self.time_frame) & 0xFF
+            key = cv2.waitKey(self.wait_key) & 0xFF
             if key == ord('q'):
                 break
 

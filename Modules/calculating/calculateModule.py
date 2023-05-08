@@ -2,7 +2,6 @@ import numpy as np
 import time
 
 
-
 def calculateModule(left_eye_coords1, right_eye_coords1, left_eye_coords2, right_eye_coords2) -> int:
     left_eye_average_X = None
     left_eye_average_Y = None
