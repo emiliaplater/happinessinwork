@@ -3,25 +3,18 @@ import numpy as np
 from concurrent import futures
 
 
-def on_trackbar(val):
-    global threshold_value
-    threshold_value = val
+def binaryModule(frame, initial_threshold=0):
+    threshold_value = initial_threshold
 
-
-cv2.namedWindow('Processed Frame')
-cv2.createTrackbar('Threshold', 'Processed Frame', 13, 255, on_trackbar)
-threshold_value = 13
-
-
-def binaryModule(frame):
     def process_region(region):
+        nonlocal threshold_value
         gray_frame = cv2.cvtColor(region, cv2.COLOR_BGR2GRAY)
         gray_frame = cv2.GaussianBlur(gray_frame, (5, 5), 0)
 
         brightness = np.mean(gray_frame)
-        threshold = threshold_value + int((brightness - 128) / 2)
+        threshold = threshold_value + int((brightness - 77) / 2)
 
-        _, threshold = cv2.threshold(gray_frame, threshold, 255, cv2.THRESH_BINARY_INV)
+        _, threshold = cv2.threshold(gray_frame, threshold, 255, cv2.THRESH_BINARY_INV, cv2.ADAPTIVE_THRESH_GAUSSIAN_C)
 
         kernel = np.ones((3, 3), np.uint8)
         opened = cv2.morphologyEx(threshold, cv2.MORPH_OPEN, kernel)

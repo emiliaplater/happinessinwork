@@ -1,8 +1,7 @@
 import cv2
 
 
-
-def algorithmModule2(threshold, frame) -> int:
+def algorithmModule2(threshold, frame, circle_color=(255, 0, 0)) -> int:
     contours, _ = cv2.findContours(threshold, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
     contours = sorted(contours, key=lambda x: cv2.contourArea(x), reverse=True)
 
@@ -18,10 +17,10 @@ def algorithmModule2(threshold, frame) -> int:
         radius = int(r)
 
         if x < frame.shape[1] / 2:
-            cv2.circle(frame, center, radius, (255, 0, 0), 2)
+            cv2.circle(frame, center, radius, circle_color, 2)
             left_eye_coords2 = (x, y, r)
         else:
-            cv2.circle(frame, center, radius, (255, 0, 0), 2)
+            cv2.circle(frame, center, radius, circle_color, 2)
             right_eye_coords2 = (x, y, r)
 
     return left_eye_coords2, right_eye_coords2
