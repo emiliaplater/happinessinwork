@@ -9,7 +9,6 @@ services:
     volumes:
       - ./mainModule.py:/mainModule.py
       - ./Modules:/Modules
-      - ./vids:/vids
     environment:
       - PYTHONUNBUFFERED=TRUE
       - PYTHONDONTWRITEBYTECODE=TRUE
