@@ -10,9 +10,9 @@ from Modules.performance.binaryModule import binaryModule
 from Modules.algorithms.algorithmModule1 import algorithmModule1
 from Modules.algorithms.algorithmModule2 import algorithmModule2
 from Modules.calculating.calculateModule import calculateModule
-from utils.savings.video_saver import initialize_video_writer, record_frame, release_video_writer
-
-
+from utils.savings.video_saver import VideoSaver
+from utils.savings.figure_saver import FigureSaver
+from utils.savings.coords_saver import CoordinatesSaver
 
 
 class MainModule:
@@ -39,52 +39,11 @@ class MainModule:
         self.ax.set_ylabel('Y')
         self.ax.set_zlabel('Time')
 
-        self.video_writer = None
-
-
-
-    def save_figure(self, video_name):
-        details_folder = os.path.join(self.output_figure_coords_path, f'details_for_{video_name}')
-        os.makedirs(details_folder, exist_ok=True)
-
-        graphic_coords_folder = os.path.join(details_folder, f'graphic&coords_{video_name}')
-        os.makedirs(graphic_coords_folder, exist_ok=True)
-
-        graphic_folder = os.path.join(graphic_coords_folder, 'graphic')
-        os.makedirs(graphic_folder, exist_ok=True)
-        graphic_path = os.path.join(graphic_folder, f'graphic_{video_name}.png')
-
-
-        self.ax.figure.savefig(graphic_path)
-
-
-    def save_coordinates(self, video_name, left_eye_coords, right_eye_coords):
-        details_folder = os.path.join(self.output_figure_coords_path, f'details_for_{video_name}')
-        os.makedirs(details_folder, exist_ok=True)
-
-        graphic_coords_folder = os.path.join(details_folder, f'graphic&coords_{video_name}')
-        os.makedirs(graphic_coords_folder, exist_ok=True)
-
-        coordinates_folder = os.path.join(graphic_coords_folder, 'coordinates')
-        os.makedirs(coordinates_folder, exist_ok=True)
-        coordinates_file_path = os.path.join(coordinates_folder, f'coordinates_{video_name}.csv')
-
-        with open(coordinates_file_path, 'w', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-
-            for i in range(len(left_eye_coords)):
-                if left_eye_coords[i] is not None:
-                    x1, y1, r1 = left_eye_coords[i]
-                    writer.writerow(['Left eye\'s coordinates: ' + f'X: {x1}', f' Y: {y1}', f' R: {r1}'])
-                else:
-                    writer.writerow('No eye detected...')
-            
-            for i in range(len(right_eye_coords)):
-                if right_eye_coords[i] is not None:
-                    x2, y2, r2 = right_eye_coords[i]
-                    writer.writerow(['Right eye\'s coordinates: ' + f'X: {x2}', f' Y: {y2}', f' R: {r2}'])
-                else:
-                    writer.writerow('No eye detected...')
+        self.video_saver = VideoSaver(output_folder=self.output_folder)
+        self.figure_saver = FigureSaver(output_folder=self.output_figure_coords_path)
+        self.coordinates_saver = CoordinatesSaver(output_folder=self.output_figure_coords_path)
+        self.left_eye_coords = []
+        self.right_eye_coords = []
 
 
     def play(self):
@@ -98,7 +57,7 @@ class MainModule:
         left_eye_coords = []
         right_eye_coords = []
 
-        self.video_writer, self.left_video_writer, self.right_video_writer = initialize_video_writer(
+        self.video_writer, self.left_video_writer, self.right_video_writer = self.video_saver.initialize_video_writer(
             self.output_folder, frame_width, frame_height, frame_rate, video_name
         )
 
@@ -128,7 +87,6 @@ class MainModule:
                 self.ax.scatter(right_eye_average_X, right_eye_average_Y, timestamp, marker=self.marker, color=self.color)
                 right_eye_coords.append([right_eye_average_X, right_eye_average_Y, right_eye_average_R])
 
-            plt.pause(0.001)
 
             height, width = frame.shape[:2]
             half_width = width // 2
@@ -139,22 +97,24 @@ class MainModule:
             cv2.imshow('Left', left_frame)
             cv2.imshow('Right', right_frame)
 
-            record_frame(self.video_writer, self.left_video_writer, self.right_video_writer, frame)
-
-            release_video_writer(self.video_writer, self.left_video_writer, self.right_video_writer)
+            self.video_saver.record_frame(self.video_writer, self.left_video_writer, self.right_video_writer, frame)
 
             key = cv2.waitKey(self.wait_key) & 0xFF
             if key == ord('q'):
                 break
 
-        self.save_figure(video_name)
-        self.save_coordinates(video_name, left_eye_coords, right_eye_coords)
+        self.figure_saver.save_figure(video_name, self.ax)
+        self.coordinates_saver.save_coordinates(video_name, left_eye_coords, right_eye_coords)
+
 
         capture.release()
         cv2.destroyAllWindows()
 
+        self.video_saver.release_video_writer(self.video_writer, self.left_video_writer, self.right_video_writer)
 
-video_player = MainModule('./input_videos/vid1.flv', 1)
+
+
+video_player = MainModule('./input_videos/vid1.mp4', 1)
 video_player.play()
 
 
