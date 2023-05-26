@@ -1,51 +1,79 @@
-from flask import Flask, request
+import os
+import zipfile
+import tornado.ioloop
+import tornado.web
+from mainModule import MainModule
+from utils.exceptions.exceptions import InvalidVideoFile, NoVideoFileSelected
 
-
-class InvalidVideoFile(Exception):
-    status_code = 400
-
-    def __init__(self, message):
-        super().__init__(message)
-        self.message = message
-
-
-class NoVideoFileSelected(Exception):
-    status_code = 400
-
-    def __init__(self, message):
-        super().__init__(message)
-        self.message = message
-
-
-class VideoUploader:
-    def __init__(self):
-        self.app = Flask(__name__)
-        self.app.add_url_rule('/upload_video', view_func=self.upload_video, methods=['POST'])
-        self.allowed_extensions = ['mp4', 'flv']
-        self.uploaded_file = None
-    
-    def allowed_file(self, filename):
-        return '.' in filename and filename.rsplit('.', 1)[1].lower() in self.allowed_extensions
-    
-    def upload_video(self):
+class ProcessVideoHandler(tornado.web.RequestHandler):
+    def post(self):
         try:
-            if 'video' not in request.files:
-                raise NoVideoFileSelected('No video file found...')
-            
-            video = request.files['video']
-            if video.filename == '':
-                raise NoVideoFileSelected('No video file selected...')
-            
-            if video and self.allowed_file(video.filename):
-                video.save('input_videos/' + video.filename)
-                self.uploaded_file = 'input_videos/' + video.filename
-                return 'File uploaded successfully', 200
-            
-            raise InvalidVideoFile('Invalid file type...')
-        except InvalidVideoFile as e:
-            return e.message, e.status_code
+            video_files = self.request.files.get('video')
+            if not video_files:
+                raise NoVideoFileSelected('No video file selected.')
+
+            video_file = video_files[0]
+            video_filename = video_file['filename']
+
+            # Check if the file extension is mp4
+            if not video_filename.endswith('.mp4'):
+                raise InvalidVideoFile('Invalid video file. Only .mp4 files are allowed.')
+
+            input_videos_folder = './input_videos'
+            os.makedirs(input_videos_folder, exist_ok=True)
+
+            video_path = os.path.join(input_videos_folder, video_filename)
+            with open(video_path, 'wb') as f:
+                f.write(video_file['body'])
+
+            video_player = MainModule(video_path, 1, output_folder='./output_videos')
+            video_player.play()
+
+            processed_video_folder = video_player.output_folder
+
+            zip_path = os.path.join(processed_video_folder, f'details_for_{video_player.video_name}.zip')
+            with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
+                for root, dirs, files in os.walk(processed_video_folder):
+                    for file in files:
+                        file_path = os.path.join(root, file)
+                        arcname = os.path.relpath(file_path, processed_video_folder)
+                        zipf.write(file_path, arcname)
+
+            self.set_header('Content-Type', 'application/octet-stream')
+            self.set_header('Content-Disposition', 'attachment; filename=output_folder.zip')
+
+            with open(zip_path, 'rb') as f:
+                while True:
+                    chunk = f.read(4096)
+                    if not chunk:
+                        break
+                    self.write(chunk)
+                    self.flush()
+
+            self.finish()
+
+            os.remove(zip_path)
+
         except NoVideoFileSelected as e:
-            return e.message, e.status_code
-    
-    def run(self):
-        self.app.run(debug=True, port=5002, use_reloader=False)
+            self.set_status(e.status_code)
+            self.write({'error': e.message})
+
+        except InvalidVideoFile as e:
+            self.set_status(e.status_code)
+            self.write({'error': e.message})
+
+        except Exception as e:
+            self.set_status(500)
+            self.write({'error': 'An unexpected error occurred.'})
+
+
+def make_app():
+    return tornado.web.Application([
+        (r"/process_video", ProcessVideoHandler),
+    ])
+
+
+if __name__ == "__main__":
+    app = make_app()
+    app.listen(5000)
+    tornado.ioloop.IOLoop.current().start()
