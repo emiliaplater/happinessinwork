@@ -6,4 +6,4 @@ RUN apt-get update && apt-get install -y python3-opencv
 RUN pip install opencv-python
 COPY . .
 EXPOSE 5000
-CMD [ "python", "mainModule.py" ]
+CMD [ "python", "server.py" ]
