@@ -1,4 +1,4 @@
-Architecture: https://www.figma.com/file/2C53L0KhQTwOMrpxIsmVCR/Centroids-detector?type=whiteboard&node-id=0%3A1&t=KwWL17chcdEzb7nR-1
+Architecture: [figma](https://www.figma.com/file/2C53L0KhQTwOMrpxIsmVCR/Centroids-detector?type=whiteboard&node-id=0%3A1&t=KwWL17chcdEzb7nR-1)
 ## Table of contents
 
 - [Description](#description)
