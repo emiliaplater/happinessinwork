@@ -22,6 +22,7 @@ class MainModule:
             output_frame_rate=30.0, 
             output_figure_coords_path='./output_videos/'):
         self.flv_path = flv_path
+        self.video_name = None
         self.wait_key = wait_key
         self.marker = marker
         self.color = color
@@ -39,7 +40,9 @@ class MainModule:
 
     def play(self):
         video_name = os.path.splitext(os.path.basename(self.flv_path))[0] 
+        self.video_name = video_name
         capture = cv2.VideoCapture(self.flv_path)
+        
 
         frame_width = int(capture.get(cv2.CAP_PROP_FRAME_WIDTH))
         frame_height = int(capture.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -78,58 +81,9 @@ class MainModule:
                 self.figure_module.plot_point(right_eye_average_X, right_eye_average_Y, timestamp)
                 right_eye_coords.append([right_eye_average_X, right_eye_average_Y, right_eye_average_R])
 
-
-            # height, width = frame.shape[:2]
-            # half_width = width // 2
-            # left_frame = frame[:, :half_width]
-            # right_frame = frame[:, half_width:]
-
-            # cv2.imshow('Both', frame)
-            # cv2.imshow('Left', left_frame)
-            # cv2.imshow('Right', right_frame)
-
-            # self.figure_module.show_figure()
-
             self.video_saver.record_frame(self.video_writer, self.left_video_writer, self.right_video_writer, frame)
-
-            key = cv2.waitKey(self.wait_key) & 0xFF
-            if key == ord('q'):
-                break
 
         self.figure_saver.save_figure(video_name, self.figure_module.ax)
         self.coordinates_saver.save_coordinates(video_name, left_eye_coords, right_eye_coords)
 
-
-        # capture.release()
-        # cv2.destroyAllWindows()
-
         self.video_saver.release_video_writer(self.video_writer, self.left_video_writer, self.right_video_writer)
-
-
-
-video_player = MainModule('./input_videos/vid1.mp4', 1)
-video_player.play()
-
-
-# if __name__ == '__main__':
-#     uploader = VideoUploader()
-    
-#     server_thread = Thread(target=uploader.run)
-#     server_thread.start()
-
-#     time.sleep(2)
-
-#     while uploader.uploaded_file is None:
-#         time.sleep(1)
-
-
-#     uploaded_video_file = uploader.uploaded_file
-#     local_video_file_path = f'./{uploaded_video_file}'
-
-#     video_player = MainModule(local_video_file_path, 1)
-#     video_player.play()
-
-#     server_thread.join()
-
-
-    
