@@ -25,7 +25,7 @@ class VideoSaver:
         os.makedirs(right_folder, exist_ok=True)
         right_video_path = os.path.join(right_folder, f'right_eye_{video_name}.mp4')
 
-        fourcc = cv2.VideoWriter_fourcc(*'X264')
+        fourcc = cv2.VideoWriter_fourcc(*'XVID')
 
         video_writer = cv2.VideoWriter(screen_main_frame_path, fourcc, frame_rate, (frame_width, frame_height))
         left_video_writer = cv2.VideoWriter(left_video_path, fourcc, frame_rate, (frame_width // 2, frame_height))
