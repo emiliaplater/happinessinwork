@@ -3,7 +3,7 @@ services:
   opencv:
     build:
       context: .
-      dockerfile: DockerFile
+      dockerfile: dockerfile
     ports:
       - 5000:5000
     volumes:
