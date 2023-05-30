@@ -1,4 +1,6 @@
 import os
+import matplotlib
+matplotlib.use('Agg')
 import zipfile
 from mainModule import MainModule
 from utils.exceptions.exceptions import InvalidVideoFile, NoVideoFileSelected
