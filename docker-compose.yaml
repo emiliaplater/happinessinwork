@@ -4,6 +4,7 @@ services:
     build:
       context: .
       dockerfile: dockerfile
+    image: centroids-viewer
     ports:
       - 5000:5000
     volumes:
@@ -12,5 +13,5 @@ services:
       - ./Modules:/Modules
       - ./utils:/utils
     environment:
-      - PYTHONUNBUFFERED=TRUE
-      - PYTHONDONTWRITEBYTECODE=TRUE
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
