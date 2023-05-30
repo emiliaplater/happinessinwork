@@ -15,7 +15,6 @@ class ProcessVideoHandler(tornado.web.RequestHandler):
             video_file = video_files[0]
             video_filename = video_file['filename']
 
-            # Check if the file extension is mp4
             if not video_filename.endswith('.mp4'):
                 raise InvalidVideoFile('Invalid video file. Only .mp4 files are allowed.')
 
