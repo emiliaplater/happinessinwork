@@ -3,6 +3,8 @@ import zipfile
 from mainModule import MainModule
 from utils.exceptions.exceptions import InvalidVideoFile, NoVideoFileSelected
 
+os.environ['MPLCONFIGDIR'] = '/tmp/matplotlib'
+
 def process_video_handler(event, context):
     try:
         video_files = event['video']
