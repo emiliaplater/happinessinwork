@@ -8,7 +8,6 @@ services:
     ports:
       - 5000:5000
     volumes:
-      - ./server.py:/server.py
       - ./mainModule.py:/mainModule.py
       - ./Modules:/Modules
       - ./utils:/utils
