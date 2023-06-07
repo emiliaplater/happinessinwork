@@ -4,14 +4,14 @@ services:
     build:
       context: .
       dockerfile: dockerfile
-    image: v1
+    image: centroids-viewer
     ports:
       - 5000:5000
     volumes:
-      - ./mainModule.py:/app/mainModule.py
-      - ./Modules:/app/Modules
-      - ./utils:/app/utils
-      - ./lambda_function:/app/lambda_function.py
+      - ./server.py:/server.py
+      - ./mainModule.py:/mainModule.py
+      - ./Modules:/Modules
+      - ./utils:/utils
     environment:
       - PYTHONUNBUFFERED=1
       - PYTHONDONTWRITEBYTECODE=1
