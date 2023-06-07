@@ -19,8 +19,7 @@ class MainModule:
             marker='o', 
             color='blue', 
             output_folder='/tmp/output_videos', 
-            output_frame_rate=30.0, 
-            output_figure_coords_path='/tmp/output_videos'):
+            output_frame_rate=30.0):
         self.flv_path = flv_path
         self.video_name = None
         self.wait_key = wait_key
@@ -28,12 +27,11 @@ class MainModule:
         self.color = color
         self.output_folder = output_folder
         self.output_frame_rate = output_frame_rate
-        self.output_figure_coords_path = output_figure_coords_path
 
         self.figure_module = FigureModule(marker=self.marker, color=self.color)
         self.video_saver = VideoSaver(output_folder=self.output_folder)
-        self.figure_saver = FigureSaver(output_folder=self.output_figure_coords_path)
-        self.coordinates_saver = CoordinatesSaver(output_folder=self.output_figure_coords_path)
+        self.figure_saver = FigureSaver(output_folder=self.output_folder)
+        self.coordinates_saver = CoordinatesSaver(output_folder=self.output_folder)
         self.left_eye_coords = []
         self.right_eye_coords = []
 
