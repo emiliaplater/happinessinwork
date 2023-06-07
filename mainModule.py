@@ -1,11 +1,11 @@
 import os
 import cv2
 import time
-from Modules.performance.binaryModule import binaryModule
-from Modules.algorithms.algorithmModule1 import algorithmModule1
-from Modules.algorithms.algorithmModule2 import algorithmModule2
-from Modules.calculating.calculateModule import calculateModule
-from Modules.figure.figureModule import FigureModule
+from modules.performance.binaryModule import binaryModule
+from modules.algorithms.algorithmModule1 import algorithmModule1
+from modules.algorithms.algorithmModule2 import algorithmModule2
+from modules.calculating.calculateModule import calculateModule
+from modules.figure.figureModule import FigureModule
 from utils.savings.video_saver import VideoSaver
 from utils.savings.figure_saver import FigureSaver
 from utils.savings.coords_saver import CoordinatesSaver
@@ -18,9 +18,9 @@ class MainModule:
             wait_key, 
             marker='o', 
             color='blue', 
-            output_folder='./output_videos', 
+            output_folder='/tmp/output_videos', 
             output_frame_rate=30.0, 
-            output_figure_coords_path='./output_videos/'):
+            output_figure_coords_path='/tmp/output_videos'):
         self.flv_path = flv_path
         self.video_name = None
         self.wait_key = wait_key
@@ -87,3 +87,16 @@ class MainModule:
         self.coordinates_saver.save_coordinates(video_name, left_eye_coords, right_eye_coords)
 
         self.video_saver.release_video_writer(self.video_writer, self.left_video_writer, self.right_video_writer)
+
+    def get_processed_frames(self):
+            capture = cv2.VideoCapture(self.flv_path)
+
+            while True:
+                ret, frame = capture.read()
+                if ret is False:
+                    break
+
+                threshold_frame = binaryModule(frame)
+                processed_frame = threshold_frame
+
+                yield processed_frame
