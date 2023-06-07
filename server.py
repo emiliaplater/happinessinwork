@@ -25,7 +25,7 @@ class ProcessVideoHandler(tornado.web.RequestHandler):
             with open(video_path, 'wb') as f:
                 f.write(video_file['body'])
 
-            video_player = MainModule(video_path, 1, output_folder='./output_videos')
+            video_player = MainModule(video_path, 1, output_folder='./tmp/output_videos')
             video_player.play()
 
             processed_video_folder = video_player.output_folder
