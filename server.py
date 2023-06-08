@@ -1,4 +1,5 @@
 import os
+import tempfile
 import zipfile
 import tornado.ioloop
 import tornado.web
@@ -30,7 +31,9 @@ class ProcessVideoHandler(tornado.web.RequestHandler):
 
             processed_video_folder = video_player.output_folder
 
-            zip_path = os.path.join(processed_video_folder, f'details_for_{video_player.video_name}.zip')
+            temp_folder = tempfile.mkdtemp()
+
+            zip_path = os.path.join(temp_folder, f'details_for_{video_player.video_name}.zip')
             with zipfile.ZipFile(zip_path, 'w', zipfile.ZIP_DEFLATED) as zipf:
                 for root, dirs, files in os.walk(processed_video_folder):
                     for file in files:
@@ -51,7 +54,7 @@ class ProcessVideoHandler(tornado.web.RequestHandler):
 
             self.finish()
 
-            os.remove(zip_path)
+            os.remove(temp_folder)
 
         except NoVideoFileSelected as e:
             self.set_status(e.status_code)
@@ -73,7 +76,8 @@ def make_app():
 
 
 if __name__ == "__main__":
+    PORT = 5001
     app = make_app()
-    app.listen(5000)
-    print('application is running on: 5000')
+    app.listen(PORT)
+    print(f'Server has been started on port: {PORT}')
     tornado.ioloop.IOLoop.current().start()
