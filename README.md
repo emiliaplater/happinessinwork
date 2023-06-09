@@ -68,5 +68,7 @@ python server.py
 > Local Machine (Docker)
 ```bash
 docker login
+```
+```bash
 docker-compose up
 ```
