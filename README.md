@@ -2,10 +2,9 @@ Architecture: [figma](https://www.figma.com/file/2C53L0KhQTwOMrpxIsmVCR/Centroid
 ## Table of contents
 
 - [Description](#description)
-- [Requirements](#requirements)
 - [Technologies](#technologies)
 - [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
+- [Step by step](#step-by-step)
 
 ## Description
 An eye centroids detector program is a computer program designed to detect and locate the positions of the centroids of the eyes in a video stream. The centroids are the points that represent the center of each eye. 
@@ -26,41 +25,44 @@ In addition to detecting the centroids of the eyes, some eye centroids detector 
 
 > [concurrent](https://docs.python.org/3/library/concurrency.html)
 
-## Getting Started 
-Creating a Virtual Environment:
+> [tornado](https://www.tornadoweb.org/en/stable/)
 
-- with Python:
+> [boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html)
+
+## Getting Started
+- with Python Virtual Environment:
 ```bash
 python -m venv myenv
 ```
-> Activate your virtual environment
+> activation Windows:
 ```bash
-source myenv/bin/activate # Linux
-.\myenv\Scripts\activate # Windows 
+myenv\Scripts\activate
 ```
-> Install dependencies and add virtual environment to the Python Kernel
+> activation Unix/Linux (Bash/Zsh):
 ```bash
-python -m pip install --upgrade pip
-pip install ipykernel
-python -m ipykernel install --user --name=myenv
+source myenv/bin/activate
 ```
-
-
-- with miniconda3:
+> activation Unix/Linux (Fish):
 ```bash
-conda create -n myenv
-conda install -n myenv opencv
-conda env export > apple-metal.yml
+source myenv/bin/activate.fish
 ```
-*Do not forget to set the environment (current: myenv) in your IDE*
-
-- run the main file:
+> activation Unix/Linux (Csh/Tcsh):
 ```bash
-python mainModule.py
+source myenv/bin/activate.csh
 ```
 
+- with Conda environment:
+```bash
+conda create --name myenv
+```
+> activation:
+```bash
+conda activate myenv
+```
 
-## Project Structure
+
+
+## Step by step
 - Setup the [environment](#getting-started) and install necessary [libraries](#technologies)
 
 - Read video frames using the OpenCV library
