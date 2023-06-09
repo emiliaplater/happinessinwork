@@ -61,10 +61,10 @@ conda activate myenv
 ```
 
 ## Installation 
-> Local Machine (root directory)
+> Local Machine(root directory)
 ```bash
 python server.py
-
+```
 > Local Machine (Docker)
 ```bash
 docker login
