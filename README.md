@@ -60,29 +60,13 @@ conda create --name myenv
 conda activate myenv
 ```
 
+## Installation 
+> Local Machine (root directory)
+```bash
+python server.py
 
-
-## Step by step
-- Setup the [environment](#getting-started) and install necessary [libraries](#technologies)
-
-- Read video frames using the OpenCV library
-
-- Select a region of interest (ROI) from the frame where eyes are expected to be present
-
-- Convert the ROI to grayscale and apply Gaussian blur to smooth the image
-
-- Apply a threshold to the grayscale image to create a binary image
-
-- Find contours in the binary image using the [findContours](https://docs.opencv.org/3.4/d3/dc0/group__imgproc__shape.html#ga17ed9f5d79ae97bd4c7cf18403e1689a) function of OpenCV [[201]](https://docs.opencv.org/3.4/d0/de3/citelist.html#CITEREF_Suzuki85)
-
-- Sort the contours based on their area in descending order
-
-- Draw circles around the contours with the largest area, which are likely to be the eyes
-
-- Find circles in the binary image using the [Edcircles](https://www.researchgate.net/publication/256822734_EDCircles_A_real-time_circle_detector_with_a_false_detection_control) function of Opencv [[6]](https://docs.opencv.org/3.4/d0/de3/citelist.html#CITEREF_Suzuki85)
-
-- Calculate average coordinates from two algorithms
-
-- Append coordinates for the graphic
-
-- Display the frame with the detected eyes
+> Local Machine (Docker)
+```bash
+docker login
+docker-compose up
+```
