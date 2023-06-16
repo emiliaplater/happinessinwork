@@ -5,7 +5,6 @@ class InvalidVideoFile(Exception):
         super().__init__(message)
         self.message = message
 
-
 class NoVideoFileSelected(Exception):
     status_code = 400
 
