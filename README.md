@@ -4,7 +4,7 @@ Architecture: [figma](https://www.figma.com/file/2C53L0KhQTwOMrpxIsmVCR/Centroid
 - [Description](#description)
 - [Technologies](#technologies)
 - [Getting Started](#getting-started)
-- [Step by step](#step-by-step)
+- [Installation](#installation)
 
 ## Description
 An eye centroids detector program is a computer program designed to detect and locate the positions of the centroids of the eyes in a video stream. The centroids are the points that represent the center of each eye. 
